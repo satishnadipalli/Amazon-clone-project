@@ -1,0 +1,24 @@
+.image--div{
+  margin-left: 4px;
+  height: 50px;
+  width: 120px;
+  border-radius: 4px;
+  }
+.image--div:hover{
+  border: 1px solid white;
+outline-offset: -2px solid white;
+  }
+.logo{
+  height: 30px;
+  margin: auto;
+  }
+.location--name{
+  height: 50px;
+}
+.location--name:hover{
+  border: 1px solid white;
+  outline-offset: -2px solid white;
+}
+.hov:hover{
+  border: 1px solid white;
+}
