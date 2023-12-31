@@ -19,4 +19,4 @@ const Authuntification = () => {
   )
 }
 
-export default Authuntification
+export default Authuntification;

@@ -23,6 +23,14 @@ const Signin = ({auths}) => {
   function handleSubmit(event){
     event.preventDefault();
     console.log(signInData);
+
+
+  }
+
+  function handleCreateAccount(event){
+    event.preventDefault();
+
+    
   }
   
 
@@ -76,7 +84,7 @@ const Signin = ({auths}) => {
       <div className='w-80 h-1 bg-gray-400 mt-5 relative flex justify-center'>
         <span className='text-xs font-semibold text-gray-700 absolute -top-2 bg-white px-2'>We welcoming you to Amazon</span>
       </div>
-      <button className='text-sm bg-white shadow-[0_3px_10px_rgb(0,0,0,0.2)] w-80 py-1 rounded-md mt-5 '>
+      <button onClick={handleCreateAccount} className='text-sm bg-white shadow-[0_3px_10px_rgb(0,0,0,0.2)] w-80 py-1 rounded-md mt-5 '>
         Create a new account
       </button>
       <div className='h-full bg-gray-200'>

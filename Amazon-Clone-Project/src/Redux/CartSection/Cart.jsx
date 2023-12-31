@@ -20,6 +20,10 @@ const Cart = () => {
     navigate('/');
   }
 
+  function handlePreceedToBuy(){
+    navigate('/location');
+  }
+
   return (
     <>
     <div className='flex gap-5 bg-back h-screen w-full gre p-8 relative'>
@@ -65,7 +69,7 @@ const Cart = () => {
           <input type="checkbox" className='mr-2' />
           <span>This order contains a gift</span>
         </span>
-        <button className='w-full bg-yellow-400 rounded-md mt-5 text-sm py-1 text-white'>
+        <button onClick={handlePreceedToBuy} className='w-full bg-yellow-400 rounded-md mt-5 text-sm py-1 text-white'>
           Proceed To Buy
         </button>
         <select name="" id="" className='border border-gray-400 text-md w-full h-10 m-auto mt-5'>

@@ -7,6 +7,7 @@ import ProductCategoery from './Components/HomeProducts/ProductCategoery';
 import Footer from './Components/HomeProducts/Footer';
 import Authuntification from './Components/Login/Authuntification';
 import { fetchData } from './DataFectch';
+import Location from './Components/Login/Location';
 
 const Cart = lazy(() => import('./Redux/CartSection/Cart'));
 
@@ -45,6 +46,7 @@ function App() {
             }
           />
           <Route path="/Auth" element={<Authuntification />} />
+          <Route path='/location' element={<Location/>}></Route>
         </Routes>
         {!path && <Footer />}
       </Router>
