@@ -7,6 +7,8 @@ import ProductCategoery from './Components/HomeProducts/ProductCategoery';
 import Footer from './Components/HomeProducts/Footer';
 import Authuntification from './Components/Login/Authuntification';
 import { fetchData } from './DataFectch';
+import Location from './Components/Login/Location';
+import { useSelector } from 'react-redux';
 
 const Cart = lazy(() => import('./Redux/CartSection/Cart'));
 
@@ -14,7 +16,8 @@ export const UseTotal = createContext();
 
 function App() {
   const [data, setTotalData] = useState(null);
-  const [path, setPath] = useState(true);
+  // const [path, setPath] = useState(true);
+  const {loginDetails} = useSelector((store)=>store.cart);
 
   useEffect(() => {
     fetchData().then((data) => {
@@ -23,15 +26,16 @@ function App() {
     });
   }, []);
 
-  useEffect(() => {
-    let pathNames = window.location.pathname.includes('/Auth');
-    setPath(pathNames);
-  }, [window.location.pathname]);
+  // useEffect(() => {
+  //   let pathNames = window.location.pathname.includes('/Auth');
+  //   setPath(pathNames);
+  // }, [window.location.pathname]);
 
   return (
     <UseTotal.Provider value={{ data, setTotalData }}>
       <Router>
-        {!path && <Header />}
+        {/* {!path && <Header />} */}
+        <Header/>
         <Routes>
           <Route path={'/'} element={<Home />} />
           <Route path='/products/:ProductId' element={<OnProduct />} />
@@ -43,10 +47,16 @@ function App() {
                 <Cart />
               </Suspense>
             }
-          />
-          <Route path="/Auth" element={<Authuntification />} />
+          ></Route>
+            {
+                loginDetails ? 'satish' :  <Route path="/Auth" element={<Authuntification />} />
+            }
+             
+
+          <Route path='/location' element={<Location/>}></Route>
         </Routes>
-        {!path && <Footer />}
+        {/* {!path && <Footer />} */}
+        <Footer/>
       </Router>
     </UseTotal.Provider>
   );

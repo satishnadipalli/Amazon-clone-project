@@ -47,3 +47,6 @@ body{
   border-right-width: 1px;
   border-color: gray;
 }
+.ddd{
+  border-style: dashed;
+}

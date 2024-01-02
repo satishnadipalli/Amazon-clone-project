@@ -4,7 +4,7 @@ import { Bag, Hamberger, LocationIcon, SearchIcon } from '../../HeroIcons'
 import { useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
 const Header = () => {
-  const {totalItems} = useSelector((store)=>store.cart);
+  const {totalItems,loginDetails} = useSelector((store)=>store.cart);
   const ArrayHead = [
     'Amazon miniTV',
     'Sell',
@@ -27,13 +27,13 @@ const Header = () => {
         <div className='location--name flex items-center ml-2 hidden sm:flex'>
           <LocationIcon />
            <div className='text-white'>
-             <span className='block text-xs'>Deliver to Satish</span>
+             <span className='block text-xs'>Deliver to {loginDetails?.email ? loginDetails?.email.substring(0,6) : "address"}</span>
              <span  className='block text-sm font-bold'>Rajamundry 533101</span>
            </div>
         </div>
         <div className='search--div h-full flex items-center rounded-md overflow-hidden ml-3'>
             <div className='search--bar--div flex rounded-md overflow-hidden'>
-              <input type="text" placeholder='Search Amazon.in' className=' h-9 outline-none text-sm font-semibold pl-2 pt-1 pb-1 w-100 min-w-[150] whitesmoke'/>
+              <input type="text" placeholder='Search Amazon.in' className=' h-9 outline-none text-sm font-semibold pl-2 pt-1 pb-1 w-100 min-w-[150]  whitesmoke '/>
               <div className='search-icon-div h-9  w-9 bg-orange-300 flex items-center justify-center outline-none'>
                 <SearchIcon/>
               </div>
@@ -42,13 +42,13 @@ const Header = () => {
         <div className='lang--div w-8 text-white font-bold text-sm h-full flex items-center ml-2'>
           <span>ENG</span>
         </div>
-        <Link to={'/Auth'}>
-        <div className='location--name items-center ml-2 flex flex-col items-center justify-center h-full'>
+        <Link to={ '/Auth' }>
+          <div className='location--name items-center ml-2 flex flex-col items-center justify-center h-full'>
+              
+                <span className='block text-xs text-white'>Hello {loginDetails?.email ? loginDetails.email : 'Guest'}</span>
             
-              <span className='block text-xs text-white'>Hello Guest</span>
-           
-            <span  className='block text-sm font-bold text-white'>Accounts & Lists</span>
-        </div>
+              <span  className='block text-sm font-bold text-white'>Accounts & Lists</span>
+          </div>
         </Link>
         <div className='location--name items-center ml-2 flex flex-col items-center justify-center h-full'>
             <span className='block text-xs text-white'>Returns</span>

@@ -3,20 +3,20 @@ import Login from './Login'
 import Signin from './Signin'
 import { useState } from 'react'
 const Authuntification = () => {
-  const [auth,setAuth] = useState(true);
-//   console.log(auth);
+  const [auths,setAuth] = useState(true);
+
   return (
     <>
       {
-        auth ? <Login 
-                    auths = {{auth,setAuth}}
+        auths ? <Login 
+                    authes = {{auths,setAuth}}
                 /> : 
                 <Signin
-                    auths = {{auth,setAuth}}
+                    authes = {{auths,setAuth}}
                 />
       }
     </>
   )
 }
 
-export default Authuntification
+export default Authuntification;

@@ -12,12 +12,20 @@ const Cart = () => {
   let navigate = useNavigate();
   const cartState = useSelector(store=>Object.values(store.cart.cartProducts));
   const {isOpen} = useSelector(store=>store.cartModal);
-  const {totalItems,  totalCartAmount } = useSelector(store=>store.cart);
+  const {totalItems,  totalCartAmount,user,loginDetails } = useSelector(store=>store.cart);
   const memorisedHook = useMemo(()=>cartState,[cartState]);
   const dispatch = useDispatch();
 
   function handleClick(){
     navigate('/');
+  }
+
+  function handlePreceedToBuy(){
+    if(!loginDetails){
+      navigate('/Auth');
+    }else if(user.length<=0){
+      navigate('/location');
+    }
   }
 
   return (
@@ -65,7 +73,7 @@ const Cart = () => {
           <input type="checkbox" className='mr-2' />
           <span>This order contains a gift</span>
         </span>
-        <button className='w-full bg-yellow-400 rounded-md mt-5 text-sm py-1 text-white'>
+        <button onClick={handlePreceedToBuy} className='w-full bg-yellow-400 rounded-md mt-5 text-sm py-1 text-white'>
           Proceed To Buy
         </button>
         <select name="" id="" className='border border-gray-400 text-md w-full h-10 m-auto mt-5'>
