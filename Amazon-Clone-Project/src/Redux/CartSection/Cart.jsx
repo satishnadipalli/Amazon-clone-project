@@ -12,7 +12,7 @@ const Cart = () => {
   let navigate = useNavigate();
   const cartState = useSelector(store=>Object.values(store.cart.cartProducts));
   const {isOpen} = useSelector(store=>store.cartModal);
-  const {totalItems,  totalCartAmount,user,loginDetails } = useSelector(store=>store.cart);
+  const {totalItems,  totalCartAmount } = useSelector(store=>store.cart);
   const memorisedHook = useMemo(()=>cartState,[cartState]);
   const dispatch = useDispatch();
 
@@ -21,11 +21,7 @@ const Cart = () => {
   }
 
   function handlePreceedToBuy(){
-    if(!loginDetails){
-      navigate('/Auth');
-    }else if(user.length<=0){
-      navigate('/location');
-    }
+    navigate('/location');
   }
 
   return (

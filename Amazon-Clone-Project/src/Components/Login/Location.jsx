@@ -5,21 +5,17 @@ import { useSelector } from 'react-redux';
 import { useDispatch } from 'react-redux';
 import { addAddress } from '../../Redux/CartSlice';
 import { Plus } from '../../HeroIcons';
-import {v4 as uuid4} from 'uuid';
 const Location = () => {
   const dispatch = useDispatch();
-
-  const [showTable, setShowTable] = useState(false);
-  const [showlocation, setShowLocation] = useState(false);
-  
+  const [showTable,setShowTable] = useState(false);
+  const [showlocation,setShowLocation] = useState(false);
   const [location,setLocation] = useState({
     fullName:'',
     villageName :'',
     mandalName : '',
     districtName : '',
     pinCode :'',
-    stateName :'',
-    id : ''
+    stateName :''
   });
 
   
@@ -40,10 +36,7 @@ const Location = () => {
   }
   function handleSubmit(event){
     event.preventDefault();
-    dispatch(addAddress({
-      ...location,
-      id : uuid4()
-    }));
+    dispatch(addAddress(location));
     setShowTable(true);
     setShowLocation(false);
   }
@@ -53,35 +46,33 @@ const Location = () => {
   }
 
 
-
   return (
-    <div className='p-10'>
-      <div className='flex w-full justify-around '>
-          <div className='flex items-center w-1/2 m-auto'>
-              <div className=''>
-                <span className='block text-sm font-semibold text-gray-600 pl-10'>Your Account =+ <span className='text-orange-500'>Your Address</span></span>
-                <span className='text-xl font-semibold text-gray-700 float-left pl-10'>Add Your Address</span>
-              </div>
-          </div>
+    <div className=''>
+      
+    <div className='pb-10 w-full flex items-center justify-center'>
+    <div className='w-5/12 '>
+      
+      {
+        showlocation ? <LocationForm location={{location,setLocation,handleLocationData,handleSubmit}} />
+                  : 
+      <div onClick={showAddAddress} className=' float-right mr-5 mt-5 p-5 flex items-center justify-center pt-7 h-56 w-60 border border-gray-400'>
+          <Plus/>
       </div>
-    <div className='pb-10 gap-5  w-full flex items-center justify-center p-10 '>
+      }
+    </div>
+    <div className='w-full items-center justify-center  h-screen grid grid-cols-2 gap-2 pt-5'>
+      <div className='w-full flex flex-wrap gap-5'>
+      {
+      showTable && user.length > 0 && 
       
-        {
-          showlocation ? <LocationForm location={{location,setLocation,handleLocationData,handleSubmit}} />
-                    : 
-          <div onClick={showAddAddress} className='rounded-md border-dashed ddd float-right mr-5 p-5 flex items-center justify-center pt-7 h-56 w-60 border-2 border-gray-400'>
-              <Plus/>
-          </div>
+              Object.values(user).map((element)=>{
+                return( 
+                <AddressTable element={element} />
+              )
+              })
         }
-    {
-      
-      !showlocation && user.length > 0 && 
-        Object.values(user).map((element,index)=>{
-          return( 
-          <AddressTable element={element} key={element.id}/>
-        )
-        })
-    }
+        </div>
+      </div>
       </div>
     </div>
     
