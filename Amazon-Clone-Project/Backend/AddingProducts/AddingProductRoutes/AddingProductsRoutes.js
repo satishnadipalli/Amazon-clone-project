@@ -1,5 +1,5 @@
 const express = require("express");
-const { createProduct, getAllProducts } = require("../AddingProductsControllers/AddingProductsControllers");
+const { createProduct, getAllProducts, updateProduct, updateTotalProduct, deleteProduct, giveRandomProducts } = require("../AddingProductsControllers/AddingProductsControllers");
 const { authenticateToken } = require("../../Authentication/Authentication");
 const AddProductRouter = express.Router();
 require("express-async-errors");
@@ -19,18 +19,20 @@ const storage = multer.diskStorage({
 });
 
 
-const upload = multer({
+const uploadMultiple = multer({
     storage: storage,
     limits: {
-        fileSize: 40 * 1024 * 1024, // 40MB for file size
-        fieldSize: 40 * 1024 * 1024, // 40MB for field size
+        fileSize: 40 * 1024 * 1024, 
+        fieldSize: 40 * 1024 * 1024, 
     },
-});
+}).array('image',5);
 
-// Use the Multer middleware after its configuration
-AddProductRouter.post("/addProductToStore", upload.single('image'),authenticateToken,createProduct);
+
+AddProductRouter.post("/addProductToStore", uploadMultiple,authenticateToken,createProduct);
 AddProductRouter.get("/getallproducts", getAllProducts);
-
+AddProductRouter.put("/updateProduct/:productId",authenticateToken,updateProduct);
+AddProductRouter.patch("/updatefullProduct",authenticateToken,updateTotalProduct);
+AddProductRouter.delete("/deleteOneProduct/:_id",authenticateToken,deleteProduct);
+AddProductRouter.get('/randomProducts',authenticateToken,giveRandomProducts);
 module.exports = AddProductRouter;
 
-// Rest of the code remains the same

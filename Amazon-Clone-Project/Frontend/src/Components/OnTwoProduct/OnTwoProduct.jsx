@@ -6,12 +6,19 @@ import { fetchData } from '../../DataFectch';
 import LoadingAnimation from '../../../loadingAnimation';
 import CategoeryHeader from '../HomeProducts/categoeryHeader';
 import { addLoginDetails } from '../../Redux/CartSlice';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
+import AddFeedback from '../AddFeedBack/AddFeedback';
+import { closeModal, openModal } from './submitfeedbackModel';
+import CartModel from '../../Redux/CartSection/CartModel';
+import NewfeedBack from '../AddFeedBack/NewfeedBack';
+
 const OnTwoProduct = () => {
 const {loginDetails} = useSelector(state=>state.cart)
 const { _id } = useParams();
 const [productData, setProductData] = useState(null);
-
+const [isOpen,setIsOpen] = useState(false);
+const [indexs,setIndex] = useState(0);
+const [selectedImageIndex, setSelectedImageIndex] = useState(null);
 
 useEffect(() => {
   async function handlecall(){
@@ -34,41 +41,58 @@ if (!productData) {
   return <LoadingAnimation/>; 
 }
 
-// const product = productData[ProductId];
-const product = productData.find(product => product._id === _id);
+
+const product = productData.find(product => product.productId === _id);
+
 if (!product) {
   return <div>Product not found</div>;
 }
+
+function handleModel(){
+  setIsOpen(true)
+}
+
+function handlechangeImage(index){
+  setSelectedImageIndex(index);
+  setIndex(index);
+}
+
 
 return (
   <div >
     <CategoeryHeader/>
     <div className='flex justify-between'>
-      <div className='w-10'>
-          
+      <div className='w-24 gap-3 py-5 pt-7 flex flex-col h-full items-center justify-center '>
+          {
+            product.image.map((element,index)=>{
+              return (
+                <img onClick={()=>handlechangeImage(index)}  className={`hover:scale-105 w-16 h-16 rounded-md border-2 border-blue-700 ${index === selectedImageIndex ? 'blue-border' : ''}`} src={"http://localhost:3000/uploads/"+element} alt='' />
+              )
+            })
+          }
       </div>
-        <div className='flex justify-center flex-grow '>
-          <img src={"http://localhost:3000/uploads/"+product.image} alt={`Product ${_id}`} className='h-96'/>
+        <div className='flex p-7 justify-center items-center flex-grow w-1/4 '>
+          <img src={"http://localhost:3000/uploads/"+product.image[indexs]} alt={`Product ${_id}`} className='h-96 rounded-md max-h-72 max-h-64'/>
         </div>
         <div className=' flex-grow pl-5'>
           <div className='pb-3'>
             <p className='text-xl font-bold font-sans'>{product.title}</p>
-            <p className='text-xl text-gray-700 font-semibold font-sans w-80 h-28 overflow-hidden '>{product.description}</p>
+            <p className='text-sm mt-5 leading-7 text-gray-700 font-semibold font-sans w-80 h-28 overflow-hidden '>{product.description}</p>
             <p className='text-blue-400  text-sm font-semibold'>Brand :{product.brand}</p>
             <p className='text-blue-400 text-sm font-semibold hover:text-red-600'>Visit {product.attribute} store now</p>
             <div className='rating-star  h-7 text-sm text-yellow-500 flex items-center '>
                 <span className='mr-1 text-md text-black'>{product.avgRating.toFixed(1)}</span>
-                <img src={ratingImage(product.avgRating)} alt="" className='h-4'/>
-              <span className='text-blue-400 text-md font-bold pl-5'>{product.ratings}</span>
+                <img src={ratingImage(product.avgRating)} alt="no rating image found" className='h-4'/>
+              <span className='text-blue-400 text-md font-bold pl-5'>{product.feedback.length}</span>
               <span className='text-blue-400 ml-2 text-sm font-semibold'>ratings</span>
             </div>
             <div className='amazon-badge w-24 h-4  text-sm font-semibold text-white bg-gray-800 flex justify-center items-center'>
               {product.badge && (product.badge) === "choice" ? `Amazon's ${product.badge}` : `${product.badge}`}
             </div>
           </div>
-          <hr style={{ border: 'none', borderBottom: '0.5px gray-400', width: '90%', margin: '0.5em 0' }} />
-          <div className='w-12 h-6 bg-red-600 rounded-md flex items-center justify-center mt-3'>
-              <span className='text-white text-sm font-bold'>Deal</span>
+          <hr style={{ border: 'none', borderBottom: '0.5px gray-400', width: '90%',  }} />
+          <div className='w-10 h-4 bg-red-600 rounded-md flex items-center justify-center mt-1'>
+              <span className='text-white text-sm font-semibold'>Deal</span>
           </div>
           {/* <hr className='w-24 h-0.5 border-t-0.5 border-gray-400' /> */}
           <div className='relative'>
@@ -92,6 +116,7 @@ return (
                 fullfilled
               </span>
           </div>
+          
           <span className='text-sm text-gray-600 font-semibold'>
             inclusive of all taxes
           </span>
@@ -100,7 +125,12 @@ return (
             starts at <span className='text-sm text-gray-800'>$ {calculateEMI(product.price)}</span> per month 
             <span className='ml-2 text-blue-400 hover:text-red-600'>EMI options</span>
           </span>
-          <hr style={{ border: 'none', borderBottom: '0.5px solid black', width: '90%', margin: '0.5em 0' }} />
+          <button 
+            onClick={handleModel}
+            className=' bg-slate-600 py-1 px-1 mt-4 block text-sm font-semibold text-white w-3/4 '>
+            Add a FeedBack about this product
+          </button>
+          
         </div>
         <LeftDetail
           price={product.price}
@@ -108,8 +138,18 @@ return (
           product={product}
         />
     </div>
-    
-  </div>
+    <hr style={{ border: 'none',margin:"auto", borderBottom: '0.5px solid gray', width: '95%',marginTop:"10px"  }} />
+    <div className='w-full  pl-10 pr-10 mb-20 mt-10'>
+      <span className='font-semibold text-lg'>Feed from the users</span>
+        <div className='w-full flex flex-wrap'>  
+        {
+          product.feedback.length > 0 && product.feedback.map((element)=><AddFeedback element={element}/>)
+        }
+        </div>
+      </div>
+      {isOpen && <NewfeedBack setIsOpen={setIsOpen} productId={product._id}/>}
+    </div>
+
 );
 };
 

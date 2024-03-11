@@ -37,7 +37,7 @@ return (
       <div className='w-10'>
           
       </div>
-        <div className='flex justify-center flex-grow '>
+        <div className='flex justify-center flex-grow py-10 '>
           <img src={product.image} alt={`Product ${ProductId}`} className='h-96'/>
         </div>
         <div className=' flex-grow pl-5'>

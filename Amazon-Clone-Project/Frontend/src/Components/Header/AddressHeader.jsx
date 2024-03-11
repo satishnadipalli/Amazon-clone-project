@@ -9,26 +9,28 @@ const AddressHeader = ({dispalyloc,setloc}) => {
   console.log(userLocation)
 
   const handleDefault = async(addressId)=>{
-    const response = await fetch(`http://localhost:3000/updateAddress/${addressId}`,{
-      method:"PATCH",
-      headers:{
-        "Authorization":`Bearer ${loginDetails.token}`
-      }
-    })
+    if(loginDetails){
+        const response = await fetch(`http://localhost:3000/updateAddress/${addressId}`,{
+        method:"PATCH",
+        headers:{
+          "Authorization":`Bearer ${loginDetails.token}`
+        }
+        })
 
-    if(response.ok){
-      const getAddressResponse = await fetch("http://localhost:3000/getaddress", {
-        method: "GET",
-        headers: {
-          "Authorization": `Bearer ${loginDetails.token}`
-      }
+        if(response.ok){
+          const getAddressResponse = await fetch("http://localhost:3000/getaddress", {
+            method: "GET",
+            headers: {
+              "Authorization": `Bearer ${loginDetails.token}`
+          }
+        
+      });
       
-    });
-    
-    if(getAddressResponse.ok){
-        const { alladdress } = await getAddressResponse.json();
-        dispatch(addAddress(alladdress));
-    
+        if(getAddressResponse.ok){
+            const { alladdress } = await getAddressResponse.json();
+            dispatch(addAddress(alladdress));
+        
+          }
       }
     }
   }
@@ -55,10 +57,11 @@ const AddressHeader = ({dispalyloc,setloc}) => {
         alignItems: 'center',
         justifyContent: 'center',
       }}
+
       onClick={handle}
     >
       
-      <div className='w-72 bg-white shadow-[0_3px_10px_rgb(0,0,0,0.2)] p-5'>
+      <div className='w-72 bg-white shadow-[0_3px_10px_rgb(0,0,0,0.2)] p-5 dashboard-inner-div'>
         {userLocation.map((element) => (
           <div key={element._id} className='w-72 h-14 flex'>
             <input

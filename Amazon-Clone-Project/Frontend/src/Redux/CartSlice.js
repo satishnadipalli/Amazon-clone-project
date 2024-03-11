@@ -9,6 +9,9 @@ const initialState = {
   isLoading: true,
   totalItems: 0,
   totalCartAmount: 0,
+  adminProducts:[],
+  TotalUsers:null,
+  homeProducts:[]
 };
 
 export const cartSlice = createSlice({
@@ -81,10 +84,19 @@ export const cartSlice = createSlice({
     logout:(state,action) =>{
       state.loginDetails = null
       localStorage.removeItem('loginDetails');
+    },
+    addAdminProducts:(state,action)=>{
+      state.adminProducts = action.payload;
+    },
+    addTotalUsers:(state,action)=>{
+      state.TotalUsers = action.payload;
+    },
+    addHomeProducts:(state,action)=>{
+      state.homeProducts = action.payload;
     }
   },
 });
 
-export const { addToCart,logout, removeFromCart,removeAllItems,calculateTotals,calculatePrice,addAddress,removeAddress,addLoginDetails } = cartSlice.actions;
+export const { addToCart,addTotalUsers,addHomeProducts,logout,addAdminProducts, removeFromCart,removeAllItems,calculateTotals,calculatePrice,addAddress,removeAddress,addLoginDetails } = cartSlice.actions;
 export default cartSlice.reducer;
 

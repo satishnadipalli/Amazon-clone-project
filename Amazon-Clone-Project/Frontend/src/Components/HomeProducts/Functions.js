@@ -17,15 +17,21 @@ export function calculateEMI(emi){
 
 
 export function ratingImage(avgRating){
-  if(avgRating ===1){
+  console.log("your average rating is ")
+  
+  if(avgRating >0 && avgRating <1){
     return "/images/1_star.png"
-  }else if(avgRating === 2){
+  }
+  else if(avgRating === 0){
+    return "/images/1_star.png"
+  }
+  else if(avgRating >1 && avgRating <2){
     return "/images/2_star.webp"
-  }else if(avgRating === 3){
+  }else if(avgRating >2 && avgRating <3){
     return "/images/3_star.png"
-  }else if(avgRating === 4){
+  }else if(avgRating >3 && avgRating <4){
     return "/images/4_star.png"
-  }else if(avgRating === 5){
+  }else if(avgRating >4 && avgRating <5){
     return "/images/5_star.webp"
   }
   else{

@@ -6,7 +6,7 @@ const Authuntification = () => {
   const [auths,setAuth] = useState(true);
 
   return (
-    <>
+    <div className='mt-14'>
       {
         auths ? <Login 
                     authes = {{auths,setAuth}}
@@ -15,7 +15,7 @@ const Authuntification = () => {
                     authes = {{auths,setAuth}}
                 />
       }
-    </>
+    </div>
   )
 }
 

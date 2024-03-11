@@ -2,87 +2,135 @@ import React, { useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { useLocation } from 'react-router-dom'
 import { logout } from '../Redux/CartSlice';
-import { Buy, New, Saved } from '../HeroIcons';
+import { Buy, Buyed, CurrentUsers, DashboardIcon, LogoutIcon, New, OrderIcon,  ProductsIcon,  Saved, SwitchAccount } from '../HeroIcons';
 import SavedProducts from './SavedProducts';
 import NewProduct from './NewProduct';
 import BuyedProducts from './BuyedProducts';
-
+import { Link } from 'react-router-dom';
+import Profile from './addnewProduct/Profile';
+import Users from './Users.jsx/Users';
+import Orders from './Orders/Orders';
+import AllProductsAdminDetails from './AllProductAdminDetails/AllProductsAdminDetails';
 const Dashboard = () => {
+    const [component,setComponent] = useState('profile');
     const dispatch = useDispatch();
     const {loginDetails,userLocation} = useSelector(state=>state.cart)
     const [tab,setTab] = useState('saved')
+    const [open,setisOpen] = useState(false);
 
-    console.log(loginDetails.profilePhoto)
+
 	function handleTab(tab){
 		setTab(tab);
 	}
 
     function logouts(){
-        dispatch(logout())
+        dispatch(logout());
     }
 
     function handleProfile(){
         if(tab==='saved'){
             return <SavedProducts tab={tab}/>
-        }else if(tab=='add'){
-            return <NewProduct/>
-        }else{
+        }
+        else{
             return <BuyedProducts/>
         }
     }
+
+    function logoutFromAccount(){
+        dispatch(logout())
+        window.location = '/Auth'
+    }
+
+    function logoutUser(){
+        setisOpen(true);
+    }
   return (
-    <div className='w-full flex '>
-        <div className='w-52 h-screen '>
-
-        </div>
-        <div className='w-full flex flex-col items-center '>
-            <div className='w-1/2 grid  pt-10'>
-                <div className='full  flex gap-24  pt-10' >
-                    <div className='w-36 h-36 p-1 border-2 border-gray-500  rounded-full'>
-                    <img
-                        className='w-36 h-36 h-full rounded-full'
-                        src={"http://localhost:3000/uploads/"+loginDetails.profilePhoto}
-                        alt="No image"
-                        onError={(e) => console.error('Error loading image:', e.target.src, e.target.error)}
-                    />
-
-                    </div>
-                    <div className='w-1/2'>
-                        <div className='flex justify-between'>
-                        <span className='text-lg font-semibold'>{loginDetails?.lastname}</span>
-                        <button className=' py-1  px-4 text-sm rounded-md font-semibold bg-gray-300 border border-1'>Edit Profile</button>
-                        </div>
-                        <div className='h-8 flex justify-between mt-3 text-sm font-bold text-gray-700'>
-                            <span>0 orders</span>
-                            <span>0 deliverd</span>
-                            <span>10 cartItems</span>
-                        </div>
-                        <div className=''>
-                        <span className='text-sm font-semibold text-gray-700'>{loginDetails?.email}</span>
-                        <span className='flex justify-between mt-3' onClick={logouts}>Added addresses :{userLocation?.length >0 ? userLocation.length : 
-                        <button onClick={logouts} className=' font-medium text-sm  py-1  px-4 text-sm rounded-md font-semibold bg-gray-300 border border-1 '>
-                                Add location
-                            </button>} </span>
-                        </div>
-                    </div>
-                    </div>
-                    <hr style={{ width: "100%", height: "1px",backgroundColor:"gray"}} className='mt-10' />
-                    <div className='mb-10 w-full flex justify-between text-sm font-bold text-gray-500 '>
-                        <span onClick={()=>handleTab('saved')} className={ tab==='saved' ? " px-10 py-2 bg-gray-300 flex items-center justify-center gap-2 border-t-2 border-black text-black" : "  px-10 py-2  flex items-center justify-center gap-2" }><Saved/>
-                            Saved Products
-                        </span>
-                        <span onClick={()=>handleTab('add')} className={ tab==='add' ? " px-10 py-2 bg-gray-300 flex items-center justify-center gap-2 border-t-2 border-black text-black" : " px-10 py-2  flex items-center justify-center gap-2" }><New/>
-                             Add a New Product
-                        </span>
-                        <span onClick={()=>handleTab('buy')} className={ tab==='buy' ? " px-10 py-2 bg-gray-300 flex items-center justify-center gap-2 border-t-2 border-black text-black" : " px-10 py-2  flex items-center justify-center gap-2" }><Buy/>
-                            Buyed Products
-                        </span>
-                    </div>
-                    {
-                        handleProfile()
-                    }
+    <div className='w-full relative flex relative overflow-hidden pb-24 '>
+        
+        <div style={{borderRight:"1px solid grey"}} className='flex gap-3 flex-col w-72 relative  p-3 '>
+            <div className='flex items-center gap-2 mt-10'>
+                <img className='h-14 w-14' src="https://ativancouver.ca/wp-content/uploads/jet-engine-forms/12/2023/01/lord-krishna-arjuna-logo-small-sig-1536x1536.png" alt="" />
+                <span className='font-bold text-gray-700 '>KRI-SA EComerce</span>
+            </div>
+            {
+                loginDetails?.isAdmin && 
+                <div onClick={()=>setComponent("users")} className='flex gap-4 hover:bg-gray-200 py-2 px-3 hover:rounded-lg hover:scale-105'>
+                    <CurrentUsers/>
+                <span>Users</span>
                 </div>
+            }
+
+            <div onClick={()=>setComponent("orders")}  className='flex gap-4 hover:bg-gray-200 py-2 px-3 hover:rounded-lg hover:scale-105'>
+                <OrderIcon/>
+                <span>Orders</span>
+            </div>
+
+            <div onClick={()=>setComponent("savedproducts")}  className='flex gap-4 hover:bg-gray-200 py-2 px-3 hover:rounded-lg hover:scale-105'>
+                <Saved/>
+                <span>Saved Products</span>
+            </div>
+            
+            <div onClick={()=>setComponent("productsbuyed")}  className='flex gap-4 hover:bg-gray-200 py-2 px-3 hover:rounded-lg hover:scale-105'>
+                <Buyed/>
+                <span>Products Buyed</span>
+            </div>
+
+            <div onClick={()=>setComponent("orders")}  className='flex gap-4 hover:bg-gray-200 py-2 px-3 hover:rounded-lg hover:scale-105'>
+                <DashboardIcon/>
+                <span>Dashboard</span>
+            </div>
+            <div onClick={()=>setComponent("profile")}  className='flex gap-4 items-center hover:bg-gray-200 py-2 px-3 hover:rounded-lg hover:scale-105'>
+                <img src={"http://localhost:3000/uploads/"+loginDetails?.profilePhoto} alt="" className='w-8 h-8 rounded-full' />
+                <span>Profile</span>
+            </div>
+            <div onClick={()=>setComponent("orders")}  className='flex gap-4 hover:bg-gray-200 py-2 px-3 hover:rounded-lg hover:scale-105'>
+                <SwitchAccount/>
+                <span>Switch Account</span>
+            </div>
+            <div onClick={logoutUser}  className='flex gap-4 hover:bg-gray-200 py-2 px-3 hover:rounded-lg hover:scale-105'>
+                <LogoutIcon/>
+                <span>Logout</span>
+            </div>
+
+            {
+                loginDetails?.isAdmin &&
+                    <div onClick={()=>setComponent("products")}  className='flex gap-4 hover:bg-gray-200 py-2 px-3 hover:rounded-lg hover:scale-105'>
+                        <ProductsIcon/>
+                        <span>Products</span>
+                    </div>
+            }
+
+            
+
         </div>
+        {
+            component == 'profile' && <Profile handleProfile={handleProfile} handleTab={handleTab} logouts={logouts} tab={tab}/> ||  component == 'users' && <Users/> || component=='orders' && <Orders/> || component == 'products' && <AllProductsAdminDetails/> || component==='savedproducts' && <SavedProducts/> || component ==="productsbuyed" && <BuyedProducts/>                                                                    
+        }
+        {
+            open && <div 
+            style={{
+                position: 'fixed',
+                top: 0,
+                left: 0,
+                width: '100%',
+                height: '100vh',
+                backgroundColor: 'rgba(0, 0, 0, 0.7)',
+                zIndex: 500,
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+              }}
+            className=' w-full  h-screen bg-white shadow-[0_3px_10px_rgb(0,0,0,0.2)] h-40 absolute top-72 dashboard-main-div'
+           >
+            <div className='w-80 flex overflow-hidden items-center flex-col h-36 relative bg-white rounded-md dashboard-inner-div'>
+                <span className='text-lg  text-gray-800 font-semibold mt-7'>Logging Out</span>
+                <span className='text-sm  text-gray-600 font-semibold mt-2'>You need Log back</span>
+                <button onClick={logoutFromAccount} style={{borderTop:"1px solid gray"}} className='w-full hover:bg-gray-200  border-t-2 border-gray-700   py-2 mt-1  absolute bottom-0'>Logout</button>
+            </div>
+           
+        </div>
+        }
+         
         
     </div>
   )

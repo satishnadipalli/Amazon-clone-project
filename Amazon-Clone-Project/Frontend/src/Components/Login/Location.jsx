@@ -24,23 +24,26 @@ const Location = () => {
   });
 
   useEffect(()=>{
-    const fetchAddress = async(req,res) =>{
-      const response = await fetch("http://localhost:3000/getaddress",{
-        method:"GET",
-        headers:{
-          "Authorization" : `Bearer ${loginDetails.token}`
+    loginDetails ? console.log("ji") : console.log("flase")
+    if(loginDetails){
+      const fetchAddress = async(req,res) =>{
+        const response = await fetch("http://localhost:3000/getaddress",{
+          method:"GET",
+          headers:{
+            "Authorization" : `Bearer ${loginDetails.token}`
+          }
+        })
+        
+        if(response.ok){
+          const {alladdress} = await response.json();
+          dispatch(addAddress(alladdress));
+          setShowTable(true);
+          setShowLocation(false);
         }
-      })
-      
-      if(response.ok){
-        const {alladdress} = await response.json();
-        dispatch(addAddress(alladdress));
-        setShowTable(true);
-        setShowLocation(false);
       }
+  
+      fetchAddress();
     }
-
-    fetchAddress();
   },[])
   
 
@@ -56,43 +59,45 @@ const Location = () => {
   async function handleSubmit(event) {
     event.preventDefault();
   
-    try {
-      const response = await fetch("http://localhost:3000/add-address", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          "Authorization": `Bearer ${loginDetails?.token}`
-        },
-        body: JSON.stringify(location)
-      });
-  
-      if (response.ok) {
-       
-        const getAddressResponse = await fetch("http://localhost:3000/getaddress", {
-          method: "GET",
+    if(loginDetails){
+      try {
+        const response = await fetch("http://localhost:3000/add-address", {
+          method: "POST",
           headers: {
+            "Content-Type": "application/json",
             "Authorization": `Bearer ${loginDetails?.token}`
-          }
-
+          },
+          body: JSON.stringify(location)
         });
-  
-        if (getAddressResponse.ok) {
-          const { alladdress } = await getAddressResponse.json();
+    
+        if (response.ok) {
          
-          dispatch(addAddress(alladdress));
-          setShowTable(true);
-          setShowLocation(false);
-
+          const getAddressResponse = await fetch("http://localhost:3000/getaddress", {
+            method: "GET",
+            headers: {
+              "Authorization": `Bearer ${loginDetails?.token}`
+            }
+  
+          });
+    
+          if (getAddressResponse.ok) {
+            const { alladdress } = await getAddressResponse.json();
+           
+            dispatch(addAddress(alladdress));
+            setShowTable(true);
+            setShowLocation(false);
+  
+          } else {
+  
+            console.log("Error fetching addresses:", getAddressResponse.statusText);
+  
+          }
         } else {
-
-          console.log("Error fetching addresses:", getAddressResponse.statusText);
-
+          console.log("Error adding address:", response.statusText);
         }
-      } else {
-        console.log("Error adding address:", response.statusText);
+      } catch (error) {
+        console.log(error);
       }
-    } catch (error) {
-      console.log(error);
     }
   }
   

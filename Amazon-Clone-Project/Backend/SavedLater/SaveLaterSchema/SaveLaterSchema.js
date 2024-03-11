@@ -2,21 +2,25 @@ const mongoose = require("mongoose");
 const Schema = mongoose.Schema;
 
 const SaveLaterSchema = new Schema({
-    id: {
-        type: Number,
-        required: false
-    },
     title: {
         type: String,
         required: [true, "Please provide the title of the product"]
     },
-    image: {
+    image:[ {
         type: String,
         required: [true, "Please provide the image link of the product"]
+    }],
+    avgRating:{
+        type:Number,
+        required:false
     },
     time:{
         type:String,
         required:false
+    },
+    price:{
+        type:Number,
+        required:true
     },
     createdBy: {
         type: mongoose.Schema.Types.ObjectId,

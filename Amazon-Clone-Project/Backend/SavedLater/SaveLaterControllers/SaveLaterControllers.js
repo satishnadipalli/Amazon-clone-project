@@ -13,6 +13,7 @@ const getSavedProduct = async(req,res) =>{
 
 const postSavedProduct = async(req,res) =>{
     const product = req.body;
+    console.log(req.body)
 
     const {_id} = req.user;
 
@@ -22,14 +23,19 @@ const postSavedProduct = async(req,res) =>{
     const currentUser = await UserDB.findOne({_id});
     const createdBy = _id;
     const today = new Date();
-
+    console.log(req.body,"llllll")
     const year = today.getFullYear();
     const month = String(today.getMonth() + 1).padStart(2, '0');
     const day = String(today.getDate()).padStart(2, '0');
 
     const formattedDate = `${year}-${month}-${day}`;  
 
-    const insertProduct = await SaveLaterSchema.create({...req.body,createdBy:_id,time:formattedDate})
+    const savedProduct = await SAVELATER.findOne({createdBy:_id,_id:req.body._id});
+    if(savedProduct){
+        return res.status(200).json({msg:"the product already exist in the savedLater"});
+    }
+
+    const insertProduct = await SaveLaterSchema.create({...req.body,avgRating:req.body.avgRating,createdBy:_id,time:formattedDate})
     
 
     res.status(200).json({insertProduct});

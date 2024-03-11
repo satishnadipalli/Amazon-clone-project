@@ -2,18 +2,20 @@ const mongoose = require("mongoose");
 const UserDB = require("../../UserSchema");
 
 const CartSchema = mongoose.Schema({ 
-    id: {
-        type:Number,
-        required:false
+    productId:{
+        type:String,
+        required:true
     },
     title: {
         type:String,
         required:[true,"please provide the title of the product"]
     },
-    image: {
-        type:String,
-        required:[true,"please provide the imagelink of the product"]
-    },
+    image: [
+        {
+            type:String,
+            required:[true,"please provide the imagelink of the product"]
+        }
+    ],
     image_small: {
         type:String,
         required:[false,"please provide the smallImage of the product"]
@@ -50,6 +52,13 @@ const CartSchema = mongoose.Schema({
         type:Number,
         required:[true,"please provide the quantity of the product"]
     },
+    feedback: [{
+        user: String,
+        feed: String,
+        profilePhoto:String,
+        date:String,
+        rateGiven:Number
+    }],
     badge: {
         type:String,
         required:[true,"please provide the badge of the product"]

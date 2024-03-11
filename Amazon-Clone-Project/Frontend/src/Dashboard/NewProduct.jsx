@@ -1,10 +1,11 @@
 import React, { useState } from 'react'
 import { useSelector } from 'react-redux';
-const NewProduct = () => {
-  const {loginDetails} = useSelector(state=>state.cart)
+const NewProduct = ({setIsOpen,clickedProduct}) => {
+  const {loginDetails,adminProducts} = useSelector(state=>state.cart)
+  
   const [productDetails,setProductDetails] = useState({
     title: "",
-    image: "",
+    image: [],
     categoery:"",
     image_small: "",
     attribute: "",
@@ -17,7 +18,7 @@ const NewProduct = () => {
     badge: "'",
     quantity:1
   });
-  console.log(loginDetails)
+
   function handleDetails(event){
     const {value,name} = event.target
     setProductDetails((previousValue)=>{
@@ -34,40 +35,44 @@ const NewProduct = () => {
     setProductDetails((previousValue)=>{
       return{
         ...previousValue,
-        image:selectedFile
+        image:[...previousValue.image,selectedFile]
       }
     })
    } 
 
-  async function handleSubmit(event) {
+   async function handleSubmit(event) {
     try {
       event.preventDefault();
       const formData = new FormData();
-
-    formData.append('title', productDetails.title);
-    formData.append('image', productDetails.image);
-    formData.append('categoery', productDetails.categoery);
-    formData.append('image_small', productDetails.image_small);
-    formData.append('brand', productDetails.brand);
-    formData.append('description', productDetails.description);
-    formData.append('avgRating', productDetails.avgRating);
-    formData.append('ratings', productDetails.ratings);
-    formData.append('price', productDetails.price);
-    formData.append('oldPrice', productDetails.oldPrice);
-    formData.append('badge', productDetails.badge);
-    formData.append('quantity', productDetails.quantity);
-
-      console.log(formData)
+  
+      formData.append('title', productDetails.title);
+      formData.append('categoery', productDetails.categoery);
+      formData.append('brand', productDetails.brand);
+      formData.append('description', productDetails.description);
+      formData.append('avgRating', productDetails.avgRating);
+      formData.append('ratings', productDetails.ratings);
+      formData.append('price', productDetails.price);
+      formData.append('oldPrice', productDetails.oldPrice);
+      formData.append('badge', productDetails.badge);
+      formData.append('quantity', productDetails.quantity);
+  
+      // Append each image separately
+      for (let i = 0; i < productDetails.image.length; i++) {
+        formData.append('image', productDetails.image[i]);
+      }
+  
+      console.log(formData);
+  
       const response = await fetch("http://localhost:3000/addProductToStore", {
         method: "POST",
         headers: {
-          "Authorization": `Bearer ${loginDetails.token}`
+          Authorization: `Bearer ${loginDetails.token}`,
         },
-        body: formData
+        body: formData,
       });
-
+  
       if (response.ok) {
-        console.log("Product is successfully added");
+        setIsOpen(false);
       } else {
         console.error(`Error: ${response.status} - ${response.statusText}`);
       }
@@ -77,7 +82,7 @@ const NewProduct = () => {
   }
 
   return (
-    <div className='flex items-center w-full justify-center pt-10 '>
+    <div className='flex items-center w-full justify-center pt-10 absolute  bg-white'>
       <form onSubmit={(event)=>{handleSubmit(event)}} className="w-full max-w-lg">
       <div className="flex flex-wrap -mx-3 mb-6">
         <div className="w-full md:w-1/2 px-3 mb-6 md:mb-0">
@@ -107,12 +112,13 @@ const NewProduct = () => {
              name='brand'
              
             >
-              <option>Amazon</option>
+              <option>defalut</option>
               <option>Apple</option>
               <option>Lg</option>
               <option>sony</option>
               <option>Nike</option>
               <option>Adidas</option>
+              <option>Amazon</option>
             </select>
             <div className="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-gray-700">
               <svg className="fill-current h-4 w-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20"><path d="M9.293 12.95l.707.707L15.657 8l-1.414-1.414L10 10.828 5.757 6.586 4.343 8z"/></svg>
@@ -146,6 +152,7 @@ const NewProduct = () => {
            className="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white focus:border-gray-500" 
            id ="" 
            type="file" 
+           multiple
            placeholder="upload Image" 
            name='image'
            onChange={handleUpload}
@@ -266,6 +273,6 @@ const NewProduct = () => {
   )
 }
 
-export default NewProduct
+export default NewProduct;
 
 

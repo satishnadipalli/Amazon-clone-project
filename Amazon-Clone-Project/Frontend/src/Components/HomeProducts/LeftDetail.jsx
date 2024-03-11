@@ -8,7 +8,7 @@ import { calculateTotals} from '../../Redux/CartSlice';
 
 
 const LeftDetail = ({price,id,product}) => {
-    // const {data} = useContext(UseTotal);
+
     
     const dispatch = useDispatch();
     const {loginDetails} = useSelector(state=>state.cart);

@@ -57,12 +57,12 @@ const Signin = ({authes}) => {
 
       if (response.ok) {
 
-        const {lastname,email,token,profilePhoto} = await response.json();
+        const {lastname,email,token,profilePhoto,isAdmin} = await response.json();
   
 
-        dispatch(addLoginDetails({ lastname, email,profilePhoto, token }));
+        dispatch(addLoginDetails({ lastname, email,profilePhoto, token,isAdmin }));
         
-        const userDetails = { lastname, email,profilePhoto, token };
+        const userDetails = { lastname, email,profilePhoto, token,isAdmin };
         
         console.log("the token",token);
         console.log('SignIn successful');  
@@ -93,7 +93,7 @@ const Signin = ({authes}) => {
 
   return (
     <div className='w-full flex items-center flex-col pb-24'>
-      <img src="/images/Amazon-2.png" alt="" className='h-10 '/>
+      <img src="https://ativancouver.ca/wp-content/uploads/jet-engine-forms/12/2023/01/lord-krishna-arjuna-logo-small-sig-1536x1536.png" alt="" className='h-10 mb-4 '/>
       <form action="submit" onSubmit={(event)=>handleSubmit(event)} className='flex-col rounded-md  flex px-5 py-10 w-80 border border-gray-400'>
         <span className='text-xl font-semibold'>Create Account</span>
         <label htmlFor="input" className='text-sm font-semibold'>
@@ -148,15 +148,15 @@ const Signin = ({authes}) => {
             SignIn
         </button>
         <span className='text-sm block mt-5'>
-            By continuing,you agree to Amazon's <span className='text-blue-400'>Conditions of Use</span> and <span className='text-blue-400'>Privacy Notice</span>
+            By continuing,you agree to SRI-KA site's <span className='text-blue-400'>Conditions of Use</span> and <span className='text-blue-400'>Privacy Notice</span>
         </span>
         <hr className='mt-3' style={{borderBottomWidth:0.1,borderBottomColor:'gray',width:"80%",margin:'auto'}}/>
         <span className='text-blue-400 text-sm mt-5'>
-            Shop on amazon and experience the faster delivery
+            Shop on SRI-KA and experience the faster delivery
         </span>
       </form>
       <div className='w-80 h-1 bg-gray-400 mt-5 relative flex justify-center'>
-        <span className='text-xs font-semibold text-gray-700 absolute -top-2 bg-white px-2'>We welcoming you to Amazon</span>
+        <span className='text-xs font-semibold text-gray-700 absolute -top-2 bg-white px-2'>We welcoming you to SRI-KA sites</span>
       </div>
       <button 
         type='submit' 

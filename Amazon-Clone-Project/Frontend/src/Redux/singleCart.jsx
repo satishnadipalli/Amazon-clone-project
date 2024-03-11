@@ -6,19 +6,19 @@ import { UseTotal } from '../App'
 
 const SingleCart = ({element}) => {
   const {price,image,id,description,quantity,_id} = element;
-                 
+  console.log("=====",element)
   const dispatch = useDispatch();
   const {loginDetails} = useSelector(state=>state.cart);
   // const {data} = useContext(UseTotal);
   
 
-  async function handleImprove(id){
+  async function handleImprove(_id){
     // dispatch(removeFromCart({id,data}));
     dispatch(calculateTotals());
     dispatch(calculatePrice());
 
     try {
-      const response = await fetch(`http://localhost:3000/deleteCartItem/${id}`,{
+      const response = await fetch(`http://localhost:3000/deleteCartItem/${_id}`,{
         method:"DELETE",
         headers:{
           "Authorization" : `Bearer ${loginDetails.token}`
@@ -58,7 +58,7 @@ const SingleCart = ({element}) => {
     <div key={id}>
       <div className='w-full flex pb-5'>
             <div style={{width:'15%'}} className='pl-2 flex items-center justify-center'>
-              <img src={image} alt="" className=' h-24 m-auto'/>
+              <img src={"http://localhost:3000/uploads/"+image[0]} alt="" className=' h-24 m-auto'/>
             </div>
             <div className="info pl-5" style={{width:'60%'}}>
               <span className='font-rr'>
@@ -76,7 +76,7 @@ const SingleCart = ({element}) => {
                   <option value="">2</option>
                   <option value="">3</option>
                 </select>
-                <button onClick={()=>handleImprove(id)} className=' text-blue-400 ggg font-semibold text-xs hover:underline'>Delete</button>
+                <button onClick={()=>handleImprove(_id)} className=' text-blue-400 ggg font-semibold text-xs hover:underline'>Delete</button>
                 <button onClick={()=>handleSave(_id)} className=' text-blue-400 ggg font-semibold text-xs hover:underline'>Save for later</button>
                 <button className=' text-blue-400 ggg font-semibold text-xs hover:underline'>Share</button>
                 <button className=' text-blue-400 ggg font-semibold text-xs hover:underline'>See more like this</button>

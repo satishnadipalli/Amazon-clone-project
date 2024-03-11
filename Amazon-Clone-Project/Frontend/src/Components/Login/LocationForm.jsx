@@ -2,16 +2,10 @@ import React, { useState } from 'react'
 
 const LocationForm = (props) => {
   const {user,setLocation,handleLocationData,handleSubmit} = props.location;
-<<<<<<< HEAD:Amazon-Clone-Project/Frontend/src/Components/Login/LocationForm.jsx
-
-
-  
-=======
->>>>>>> 08c388d4be91e4f9dd3fea1bbb3771d39f78ebc6:Amazon-Clone-Project/src/Components/Login/LocationForm.jsx
   return (
     <>
-      <form action="" className='m-auto mt-7 w-80 flex-col rounded-md  flex px-5 py-10 w-80 border border-gray-400'>
-              <img src="/images/Amazon-2.png" className='h-10 m-auto' alt="" />
+      <form action="" className='m-auto mt-3 w-80 flex-col rounded-md  flex px-5 py-10 pt-5 w-80 border border-gray-400'>
+              <img src="https://ativancouver.ca/wp-content/uploads/jet-engine-forms/12/2023/01/lord-krishna-arjuna-logo-small-sig-1536x1536.png" className='h-10 m-auto' alt="" />
               <span className='text-xl font-semibold block'>Enter Your Deliviry Address</span>
               <label htmlFor="input" className='text-sm font-semibold'>
                 FullName

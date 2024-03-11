@@ -20,8 +20,8 @@ const CategoeryHeader = ({getCategoery,setClickedCategoery}) => {
 
   
   return (
-    <div className='h-24 w-full -mb-10 flex' style={{borderBottom:'1px',borderBottomColor:'gray'}}>
-        <div className='borders w-full h-9  flex justify-around items-center '>
+    <div className='h-7 w-full  mt-9  flex items-center mb-6' style={{borderBottom:'1px solid rgb(160, 160, 160)'}}>
+        <div className=' w-full h-7 pb-1  flex justify-around items-center '>
             {
               categoeries.map((element,index)=>{
                 return (

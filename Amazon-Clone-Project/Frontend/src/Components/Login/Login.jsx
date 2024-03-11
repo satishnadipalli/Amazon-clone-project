@@ -34,7 +34,7 @@ const Login = (props) => {
   }
 
   async function handleSubmit(event,loginData){
-
+    const sss = document.querySelector(".sss").innerHTML = "Loading..."
     event.preventDefault();
 
     try {
@@ -49,14 +49,18 @@ const Login = (props) => {
 
       if (response.ok) {
         
-        const {lastname,email,token,profilePhoto} = await response.json();
+        const {lastname,email,token,profilePhoto,isAdmin} = await response.json();
 
-        dispatch(addLoginDetails({lastname,email,token,profilePhoto}));
+        
 
-        const userDetails = {lastname,email,token}
+        const userDetails = {lastname,email,token,isAdmin}
         
         console.log("Login successfull");
-        window.location = '/'
+       
+        setTimeout(()=>{
+          dispatch(addLoginDetails({lastname,email,token,profilePhoto,isAdmin}));
+          window.location = '/';
+        },2000)
       }else{
         const errorResponse = await response.json();
         if(response.status === 401){
@@ -79,7 +83,7 @@ const Login = (props) => {
 
   return (
     <div className='w-full flex items-center flex-col pb-24'>
-      <img src="/images/Amazon-2.png" alt="" className='h-10'/>
+      <img src="https://ativancouver.ca/wp-content/uploads/jet-engine-forms/12/2023/01/lord-krishna-arjuna-logo-small-sig-1536x1536.png" alt="" className='h-10'/>
       <form onSubmit={(event)=>handleSubmit(event,loginData)}  className='flex-col rounded-md  flex px-5 py-10 w-80 border border-gray-400'>
         <span className='text-xl font-semibold'>Sign in</span>
         <label htmlFor="input" className='text-sm font-semibold'>
@@ -105,19 +109,19 @@ const Login = (props) => {
         {errorMessage && <p className='text-red-500 text-sm'>{errorMessage}</p>}
 
 
-        <button type="submit" className=' py-1 rounded-md text-black text-sm w-full bg-yellow-400 mt-5 hover:bg-yellow-500'>
+        <button type="submit" className='sss py-1 rounded-md text-black text-sm w-full bg-yellow-400 mt-5 hover:bg-yellow-500'>
             Continue
         </button>
         <span className='text-sm block mt-5'>
-            By continuing,you agree to Amazon's <span className='text-blue-400'>Conditions of Use</span> and <span className='text-blue-400'>Privacy Notice</span>
+            By continuing,you agree to SRI-KA's <span className='text-blue-400'>Conditions of Use</span> and <span className='text-blue-400'>Privacy Notice</span>
         </span>
         <hr style={{marginTop:25,borderBottomWidth:0.1,borderBottomColor:'gray',width:"80%",margin:'auto'}}/>
         <span className='text-blue-400 text-sm mt-5'>
-            Shop on amazon and experience the faster delivery
+            Shop on SRI-KA and experience the faster delivery
         </span>
       </form>
       <div className='w-80 h-1 bg-gray-400 mt-5 relative flex justify-center'>
-        <span className='text-xs font-semibold text-gray-700 absolute -top-2 bg-white px-2'>New to Amazon ? </span>
+        <span className='text-xs font-semibold text-gray-700 absolute -top-2 bg-white px-2'>New to KRI-SA ? </span>
       </div>
       <button onClick={showSignPage} className='text-sm bg-white shadow-[0_3px_10px_rgb(0,0,0,0.2)] w-80 py-1 rounded-md mt-5 '>
         Create a new account

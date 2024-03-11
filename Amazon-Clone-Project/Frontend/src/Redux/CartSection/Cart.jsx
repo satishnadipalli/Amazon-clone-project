@@ -31,6 +31,7 @@ const Cart = () => {
         
         if(getCartItems.ok){
           const {UserCartItems} = await getCartItems.json();
+          console.log(UserCartItems,"-----------------")
           dispatch(addToCart(UserCartItems));
           dispatch(calculatePrice());
           dispatch(calculateTotals());

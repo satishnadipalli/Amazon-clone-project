@@ -17,28 +17,30 @@ const ProductCategoery = () => {
     useEffect(()=>{
       setCategoery(null)
 
-      async function getCategoery(categoery){
-        try {
-          
-          const response = await fetch(`http://localhost:3000/post-categoery/${id}`,{
-            method:"GET",
-            headers:{
-              "Authorization" : `Bearer ${loginDetails?.token}`
+      if(loginDetails){
+        async function getCategoery(categoery){
+          try {
+            
+            const response = await fetch(`http://localhost:3000/post-categoery/${id}`,{
+              method:"GET",
+              headers:{
+                "Authorization" : `Bearer ${loginDetails?.token}`
+              }
+            })
+            if(response.ok){
+              const {filterdProducts} =await response.json();
+              setCategoery(filterdProducts)
+              console.log(filterdProducts)
             }
-          })
-          if(response.ok){
-            const {filterdProducts} =await response.json();
-            setCategoery(filterdProducts)
-            console.log(filterdProducts)
+          } catch (error) {
+            console.log(error)
           }
-        } catch (error) {
-          console.log(error)
-        }
-    }
-
-    if(id){
-      getCategoery(id);
-    }
+      }
+  
+      if(id){
+        getCategoery(id);
+      }
+      }
 
     
     },[id,loginDetails?.token]);

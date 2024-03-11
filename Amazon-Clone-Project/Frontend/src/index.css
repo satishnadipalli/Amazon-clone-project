@@ -56,3 +56,54 @@ body{
   -webkit-box-orient: vertical;
   overflow: hidden;
 }
+.bg-transparent {
+  background-color: rgba(255, 255, 255, 0.5); /* Adjust the last parameter (0.5) for the desired transparency */
+  scroll-behavior: unset;
+}
+
+.one{
+  border: 2px solid rgb(0, 119, 255);
+}
+
+.two{
+  border: 2px solid rgb(0, 119, 255);
+}
+
+.three{
+  border: 2px solid rgb(0, 119, 255);
+}
+
+.four{
+  border: 2px solid rgb(0, 119, 255);
+}
+
+.dashboard-inner-div{
+  animation: popup 0.1s ease-in 1;
+}
+
+@keyframes popup {
+  0%{
+    transform: scale(0);
+  }
+  70%{
+    transform: scale(0.5);
+    display: none;
+  }
+  100%{
+    transform: scale(1.1);
+  }
+}
+
+.clamp-1 {
+  display: -webkit-box;
+  -webkit-line-clamp: 1;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+.clamp-2 {
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}

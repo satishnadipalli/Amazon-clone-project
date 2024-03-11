@@ -14,7 +14,7 @@ const ReturnsAndOrders = () => {
   
   return (
     <Link to={'/dashboard'}>
-      <div className='location--name items-center ml-2 flex flex-col items-center justify-center h-full' >
+      <div className='location--name text-gray-700 items-center ml-2 flex flex-col items-center justify-center h-full' >
       <UserProfile/>
       </div>
     </Link>

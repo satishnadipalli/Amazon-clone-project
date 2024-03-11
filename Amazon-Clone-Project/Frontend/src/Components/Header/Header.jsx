@@ -1,11 +1,10 @@
 import React, { useEffect, useState } from 'react'
 import { ArrayHead } from '../HomeProducts/Functions';
 import './Header.css';
-import { Bag, Hamberger, LocationIcon, SearchIcon } from '../../HeroIcons';
+import { Bag, DownArrow, Hamberger, LocationIcon, SearchIcon } from '../../HeroIcons';
 import { useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
 import Suggetion from './Suggetion';
-import Head from './head';
 import TotalItems from './TotalItems';
 
 import ReturnsAndOrders from './ReturnsAndOrders';
@@ -69,23 +68,24 @@ const Header = () => {
 
   return (
     <div>
-      <header className='overflow-visible h-25 bg-gray-800 grid relative'>
-        <div className='flex overflow-visible h-22 bg-gray-900 items-center justify-evenly'>
+      <header className='overflow-visible h-25  grid relative pt-3'> {/* bg-gray-800 */}
+        <div className='flex overflow-visible h-22  items-center justify-evenly'>{/* bg-gray-900*/}
           <div className=' image--div flex items-center hover:border-1 hover:border-white'>
-            <img src="./public/images/amazon.png" alt="non image" className='logo' />
+            <img src="https://ativancouver.ca/wp-content/uploads/jet-engine-forms/12/2023/01/lord-krishna-arjuna-logo-small-sig-1536x1536.png" alt="non image" className='logo w-10 h-10' />
+            <span className='font-bold text-gray-800 leading-4'>KRI-SA SITEs</span>
           </div>
           <div className='location--name flex items-center ml-2  sm:flex' onClick={()=>displayUserAddress()}>
             <LocationIcon />
-            <div className='text-white'>
-              <span className='block text-xs'>Deliver to { defaultUserLocation?.fullName ? defaultUserLocation.fullName : "address" }</span>
-              <span  className='block text-sm font-bold'>{defaultUserLocation?.mandalName ? defaultUserLocation.mandalName : "add"} {defaultUserLocation?.pinCode && defaultUserLocation?.pinCode}</span>
+            <div className='text-gray-700 '>
+              <span style={{fontSize:"14px"}} className='block text-xs text-gray-600 font-semibold flex'>Deliver to <DownArrow/></span>
+              {/* <span  className='block text-sm font-bold'>{ defaultUserLocation?.fullName ? defaultUserLocation.fullName : "address" }</span> */}
             </div>
           </div>
           <div>
-            <div className='search--div relative h-full rounded-md ml-3'>
-                  <div className='search--bar--div flex rounded-md '>
-                    <input type="text" onChange={SearchProducts} name='search' placeholder='Search Amazon.in' className='min-w-[100px] h-9 outline-none text-sm font-semibold pl-2 pt-1 pb-1 w-100 min-w-[150]  whitesmoke '/>
-                    <div className='search-icon-div h-9  w-9 bg-orange-300 flex items-center justify-center outline-none'>
+            <div className='search--div relative h-full rounded-md ml-3  '>
+                  <div className='search--bar--div flex rounded-md w-100 flex  items-center justify-center'>
+                    <input type="text" onChange={SearchProducts} name='search' placeholder='Search Amazon.in' className='rounded-lg h-12 text-gray-700 rounded-tr-none rounded-br-none outline-none text-sm font-semibold pl-2 pt-1 pb-1 w-80  bg-gray-200'/>
+                    <div className='search-icon-div h-12  w-9 bg-gray-200 flex items-center justify-center outline-none rounded-lg rounded-tl-none rounded-bl-none'>
                       <SearchIcon />
                     </div>
                   </div>
@@ -96,17 +96,17 @@ const Header = () => {
               }
           </div>
           
-          <div className='lang--div w-8 text-white font-bold text-sm h-full flex items-center ml-2'>
+          <div className='lang--div w-8 text-gray-700 font-bold text-sm h-full flex items-center ml-2'>
             <span>ENG</span>
           </div>
           { 
             
             <Link to={loginDetails ? '' : '/Auth'}>
-            <div className='location--name items-center ml-2 flex flex-col items-center justify-center h-full'>
+            <div className='location--name items-center text-gray-700 ml-2 flex flex-col items-center justify-center h-full'>
                 
-                  <span className='block text-xs text-white'>Hello {loginDetails?.email ? loginDetails.lastname : 'Guest'}</span>
+                  <span className='block text-xs '>Hello {loginDetails?.email ? loginDetails.lastname : 'Guest'}</span>
               
-                <span  className='block text-sm font-bold text-white'>Accounts & Lists</span>
+                <span  className='block text-sm font-bold '>Accounts & Lists</span>
             </div>
           </Link>
           }

@@ -2,18 +2,18 @@ const mongoose = require("mongoose");
 // const UserDB = require("../../UserSchema");
 
 const ProductsSchema = mongoose.Schema({ 
-    id: {
-        type:Number,
+    productId: {
+        type:String,
         required:false
     },
     title: {
         type:String,
         required:[true,"please provide the title of the product"]
     },
-    image: {
-        type:String,
-        required:[true,"please provide the imagelink of the product"]
-    },
+    image:  [{
+        type: String,
+        required: [true, "Please provide the image link of the product"]
+    }],
     categoery:{
         type:String
     },
@@ -35,7 +35,8 @@ const ProductsSchema = mongoose.Schema({
     },
     avgRating: {
         type:Number,
-        required:[false,"please provide the avgRating of the product"]
+        required:[false,"please provide the avgRating of the product"],
+        default:0
     },
     ratings: {
         type:Number,
@@ -57,6 +58,13 @@ const ProductsSchema = mongoose.Schema({
         type:Number,
         required:[false,"please provide the quantity of the product"]
     },
+    feedback: [{
+        user: String,
+        feed: String,
+        profilePhoto:String,
+        date:String,
+        rateGiven:Number
+    }],
     badge: {
         type:String,
         required:[false,"please provide the badge of the product"]

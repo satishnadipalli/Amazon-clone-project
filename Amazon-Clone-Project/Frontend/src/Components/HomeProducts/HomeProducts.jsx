@@ -1,37 +1,52 @@
-import SingleProduct from './SingleProduct'
+import { useEffect, useState } from 'react';
+import SingleProduct from './SingleProduct';
+import { useDispatch, useSelector } from 'react-redux';
+import { addHomeProducts } from '../../Redux/CartSlice';
 
 const HomeProducts = () => {
+  const dispatch = useDispatch();
+  const { loginDetails,homeProducts } = useSelector(state => state.cart);
+
+
+  useEffect(() => {
+    if(loginDetails && homeProducts.length<=0){
+      const fetchRandomProducts = async () => {
+        try {
+          const response = await fetch("http://localhost:3000/randomProducts", {
+            method: "GET",
+            headers: {
+              "Authorization": `Bearer ${loginDetails.token}`
+            }
+          });
+  
+          if (response.ok) {
+            const { randomProducts } = await response.json();
+            dispatch(addHomeProducts(randomProducts));
+          }
+        } catch (error) {
+          console.error("Error fetching random products:", error);
+        }
+      };
+  
+      // Fetch products only if loginDetails is available
+      if (loginDetails) {
+        fetchRandomProducts();
+      }
+    }
+  }, [loginDetails]);
 
   return (
-    <div className='relative z-10 p-10 pt-0 bg-transparent'>
-      <div className='flex items-center justify-around'>
-        <SingleProduct
-           parts={{
-           headding : 'Top Deals with Decent Prices',
-           img1:'./images/product_1.jpg',
-           img2:'./images/product_2.jpg',
-           img3:'./images/product_3.jpg',
-           img4:'./images/product_4.jpg'
-         }}/>
-        <SingleProduct 
-          parts={{
-            headding : 'Price drops',
-            img1:'./images/product_7.jpg',
-            img2:'./images/product_8.jpg',
-            img3:'./images/product_9.jpg',
-            img4:'./images/product_10.jpg'
-                }}/>
-        <SingleProduct 
-           parts={{
-           headding : 'Todays Hot Deals' ,
-           img1:'./images/product_5.jpg',
-           img2:'./images/product_6.jpg',
-           img3:'./images/product_11.jpg',
-           img4:'./images/product_12.jpg'
-         }}/>
+    <div className='relative z-10 p-16 pt-0 bg-transparent'>
+      <div className='flex items-center justify-center mb-6'>
+        <span className='font-semibold text-lg text-center'>Featured & Liked Products</span>
+      </div>
+      <div className='flex items-center px-10 gap-0 flex-wrap gap-11'>
+        {homeProducts?.map((element, index) => (
+          <SingleProduct key={index} element={element} />
+        ))}
       </div>
     </div>
-  )
+  );
 }
 
-export default HomeProducts
+export default HomeProducts;

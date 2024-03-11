@@ -17,12 +17,20 @@ const UsersSchema = mongoose.Schema({
         type: String,
         required : [true,"plese provide the password"]
     },
+    isAdmin :{
+        type: Boolean,
+        default:false
+    },
     addresses : {
         type : [AddressSchema],
         required:false
     },
     profilePhoto : {
         type : String,
+        required:false
+    },
+    createdDate :{
+        type: String,
         required:false
     },
     defaultAddress : {type : mongoose.Schema.Types.ObjectId,ref:'UserAddress'},
