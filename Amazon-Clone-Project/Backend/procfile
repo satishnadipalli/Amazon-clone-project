@@ -1,0 +1,2 @@
+web: node backend/main.js
+frontend: cd frontend && npm install && npm start
