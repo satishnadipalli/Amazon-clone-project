@@ -30,7 +30,7 @@ app.use(OrdersRouter);
 
 app.use(express.static(path.join(__dirname, "../Frontend")));
 
-app.get("/", (req, res) => {
+app.get("/home", (req, res) => {
   res.send("hello");
 });
 
