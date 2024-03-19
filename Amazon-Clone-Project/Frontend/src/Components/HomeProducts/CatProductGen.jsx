@@ -27,7 +27,7 @@ const CatProductGen = ({element}) => {
 					<span className='text-gray-700 pl-3 text-2xl font-sans'> 
 					{price}
 				</span>
-				<span className=' text-sm font-sans  text-gray-500'> M.R.P :<span className=' line-through'>$678</span></span>
+				<span className=' text-sm font-sans  text-gray-500'> M.R.P :<span className=' line-through'>${element.price}</span></span>
 				<span className='text-sm font-sans text-gray-600 font-semibold'>
 			(-{percentageCalculator(price,oldPrice)}%)
 			</span>

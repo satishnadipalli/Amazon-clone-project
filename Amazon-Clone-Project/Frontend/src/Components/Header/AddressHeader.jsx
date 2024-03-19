@@ -6,7 +6,7 @@ const AddressHeader = ({dispalyloc,setloc}) => {
   const {userLocation,loginDetails} = useSelector(state=>state.cart);
   const [locationOpen,setLocationOpen] = useState(false)
   const dispatch = useDispatch()
-  console.log(userLocation)
+
 
   const handleDefault = async(addressId)=>{
     if(loginDetails){
@@ -28,6 +28,7 @@ const AddressHeader = ({dispalyloc,setloc}) => {
       
         if(getAddressResponse.ok){
             const { alladdress } = await getAddressResponse.json();
+            console.log(alladdress,"from address table");
             dispatch(addAddress(alladdress));
         
           }

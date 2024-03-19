@@ -113,13 +113,13 @@ const Location = () => {
       {displaydelete && <p>deleting Address........</p>}
       <div className='flex w-full justify-around '>
           <div className='flex items-center w-1/2 m-auto'>
-              <div className=''>
+              <div className='mt-16'>
                 <span className='block text-sm font-semibold text-gray-600 pl-10'>Your Account =+ <span className='text-orange-500'>Your Address</span></span>
                 <span className='text-xl font-semibold text-gray-700 float-left pl-10'>Add Your Address</span>
               </div>
           </div>
       </div>
-    <div className='pb-10 gap-5  w-full flex items-center justify-center p-10 '>
+    <div className='pb-10 gap-5 mb-12 w-full flex items-center justify-center p-10 '>
       
         {
           showlocation ? <LocationForm location={{location,setLocation,handleLocationData,handleSubmit}} />
@@ -133,7 +133,7 @@ const Location = () => {
       !showlocation && userLocation.length > 0 && 
         userLocation.map((element,index)=>{
           return( 
-          <AddressTable element={element} key={element._id} displaydelete={displaydelete} setdisplayDelete={setdisplayDelete}/>
+        <AddressTable element={element} key={element._id} displaydelete={displaydelete} setdisplayDelete={setdisplayDelete}/>
         )
         })
     }

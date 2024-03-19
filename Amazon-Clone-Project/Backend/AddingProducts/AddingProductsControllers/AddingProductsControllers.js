@@ -69,9 +69,7 @@ const updateProduct = async (req, res) => {
 };
 
 const updateTotalProduct = async(req,res) =>{
-    console.log(req.body)
     const {_id} = req.body;
-    console.log(_id)
     const updatedProduct = await PRODUCTS.findOneAndUpdate({_id},req.body,{new:true});
     res.status(200).json({updatedProduct});
 }

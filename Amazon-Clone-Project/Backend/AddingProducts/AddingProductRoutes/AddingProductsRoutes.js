@@ -5,7 +5,6 @@ const AddProductRouter = express.Router();
 require("express-async-errors");
 const multer = require('multer');
 const path = require("path");
-console.log(__dirname,"============")
 
 const storage = multer.diskStorage({
     destination: function (req, file, cb) {

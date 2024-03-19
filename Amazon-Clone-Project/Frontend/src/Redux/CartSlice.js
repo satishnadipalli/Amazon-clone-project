@@ -11,7 +11,8 @@ const initialState = {
   totalCartAmount: 0,
   adminProducts:[],
   TotalUsers:null,
-  homeProducts:[]
+  homeProducts:[],
+  userOrders:[]
 };
 
 export const cartSlice = createSlice({
@@ -20,16 +21,6 @@ export const cartSlice = createSlice({
   reducers: {
     addToCart: (state, action) => {
 
-      // const newCart = action.payload.data;
-      // const selectedCartItem = newCart[action.payload.id];
-      // const selected = selectedCartItem;
-      // const sameProduct = state.cartProducts.find((element)=>element.id===selected.id);
-      // if(sameProduct===selected){
-      //   state.cartProducts.selected.quantity +=1;
-      //   return ;
-      // }
-      // state.cartProducts.push(selected);
-      // console.log(state.cartProducts);
       state.cartProducts = action.payload;
     },
     removeFromCart: (state, actions) => {
@@ -92,11 +83,21 @@ export const cartSlice = createSlice({
       state.TotalUsers = action.payload;
     },
     addHomeProducts:(state,action)=>{
+      if(action.payload.length %2 != 0){
+        action.payload.pop();
+      }
       state.homeProducts = action.payload;
+    },
+    getDefaultAdd:(state,action)=>{
+      const hello = state.userLocation.find((loc)=>loc.default === true);
+      state.defaultLocation = hello;
+    },
+    addOrders:(state,action)=>{
+      state.userOrders= action.payload;
     }
   },
 });
 
-export const { addToCart,addTotalUsers,addHomeProducts,logout,addAdminProducts, removeFromCart,removeAllItems,calculateTotals,calculatePrice,addAddress,removeAddress,addLoginDetails } = cartSlice.actions;
+export const { addToCart,addOrders,getDefaultAdd,addTotalUsers,addHomeProducts,logout,addAdminProducts, removeFromCart,removeAllItems,calculateTotals,calculatePrice,addAddress,removeAddress,addLoginDetails } = cartSlice.actions;
 export default cartSlice.reducer;
 

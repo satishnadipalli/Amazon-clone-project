@@ -1,40 +1,69 @@
 require("express-async-errors");
 const CART = require("../CartSchema/CartSchema")
 
-const addcartItem = async(req,res) =>{
+const addcartItem = async (req, res) => {
+    const {
+        productId,
+        title,
+        image,
+        image_small,
+        attribute,
+        brand,
+        description,
+        avgRating,
+        ratings,
+        price,
+        oldPrice,
+        quantity,
+        badge
+    } = req.body;
 
-    const {productId,title,image,image_small,attribute,brand,description,avgRating,ratings,price,oldPrice,quantity,badge} = req.body;
-
-    if(!title || !image || !brand || !description || !price){
-        return res.status(401).json({msg:"please provide the complete details of the product"})
+    if (!title || !image || !brand || !description || !price) {
+        return res.status(401).json({ msg: "Please provide the complete details of the product" });
     }
-    console.log(req.body)
+
     const createdBy = req.user._id;
 
-    if(!createdBy){
-        return res.status(500).json({msg:"there was an internal server error please try after sometime"})
+    if (!createdBy) {
+        return res.status(500).json({ msg: "There was an internal server error. Please try again later." });
     }
 
-    const existingProduct = await CART.findOne({productId,createdBy});
+    const existingProduct = await CART.findOne({ productId, createdBy });
 
-    if(existingProduct){
-        const updateProductQuantity = await CART.findOneAndUpdate(
-            {productId : productId},
-            {$set : {quantity:quantity+1}},
-            {new:true}
-        )
-        return res.status(200).json({updateProductQuantity});
-    }
-  
-    const UserCartItems = await CART.create({...req.body,createdBy});
-
-    if(!UserCartItems){
-        return res.status(500).json({msg:"adding to cart was failed please try after some time"})
+    if (existingProduct) {
+        // If the product already exists in the cart, update its quantity
+        const updatedProduct = await CART.findOneAndUpdate(
+            { productId: productId, createdBy: createdBy },
+            { $inc: { quantity: 1 } },
+            { new: true }
+        );
+        return res.status(200).json({ product: updatedProduct });
     }
 
-    return res.status(201).json({UserCartItems})
+    // Create a new cart item with the provided details
+    const newCartItem = await CART.create({
+        productId,
+        title,
+        image,
+        image_small,
+        attribute,
+        brand,
+        description,
+        avgRating,
+        ratings,
+        price,
+        oldPrice,
+        quantity,
+        badge,
+        createdBy
+    });
 
-}
+    if (!newCartItem) {
+        return res.status(500).json({ msg: "Adding to cart failed. Please try again later." });
+    }
+    console.log(newCartItem)
+    return res.status(201).json({ product: newCartItem });
+};
 
 
 const getCartItems = async(req,res) =>{
@@ -67,10 +96,9 @@ const DeleteCartItem = async(req,res) =>{
 
 const emptyCart = async(req,res) =>{
     const {_id} = req.user;
-  
     const emptyCart = await CART.deleteMany({createdBy:_id});
 
     res.status(200).json({emptyCart});
-  }
+}
   
 module.exports = {addcartItem,getCartItems,DeleteCartItem,emptyCart}

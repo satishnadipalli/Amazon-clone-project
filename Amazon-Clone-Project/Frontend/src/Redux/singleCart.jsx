@@ -6,7 +6,6 @@ import { UseTotal } from '../App'
 
 const SingleCart = ({element}) => {
   const {price,image,id,description,quantity,_id} = element;
-  console.log("=====",element)
   const dispatch = useDispatch();
   const {loginDetails} = useSelector(state=>state.cart);
   // const {data} = useContext(UseTotal);

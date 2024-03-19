@@ -265,7 +265,7 @@ const NewProduct = ({setIsOpen,clickedProduct}) => {
           />
         </div>
       </div>
-      <button type='submit' className="mt-10 mb-10 bg-blue-500 hover:bg-blue-700 text-gray-800 font-semibold py-2 w-full border border-gray-400 rounded shadow">
+      <button type='submit' className="mt-10 mb-10 bg-blue-500 hover:bg-blue-700 text-gray-800 font-semibold py-2 w-full border border-gray-400 rounded shadow" disabled={Object.values(productDetails).some(value => !value)}>
         Add Product
       </button>
     </form>

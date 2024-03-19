@@ -1,10 +1,13 @@
 import React from 'react'
 import { ratingImage } from '../Components/HomeProducts/Functions'
+import { Link } from 'react-router-dom'
 
 const SubSaved = ({element}) => {
-  console.log("element",element)
+
+
   return (
-    <div  className=' rounded-md text-black w-52 h-80 hover:scale-105 duration-200 flex-shrink align-top shadow-[0px_2px_3px_-1px_rgba(0,0,0,0.1),0px_1px_0px_0px_rgba(25,28,33,0.02),0px_0px_0px_1px_rgba(25,28,33,0.08)] relative p-4'>
+    <Link to={`/ontwoproduct/${element.productId}`}>
+        <div  className=' rounded-md text-black w-52 min-h-80 hover:scale-105 duration-200 flex-shrink align-top shadow-[0px_2px_3px_-1px_rgba(0,0,0,0.1),0px_1px_0px_0px_rgba(25,28,33,0.02),0px_0px_0px_1px_rgba(25,28,33,0.08)] relative p-4'>
           <img src={"http://localhost:3000/uploads/"+element.image[0]} alt="max-h-10" className='pb-2 max-h-24 m-auto'/>
           <span className='hello text-rr  font-semibold truncate-3-lines'>{element.title}</span>
           <span className='hello text-rr  font-semibold truncate-3-lines'>
@@ -29,6 +32,8 @@ const SubSaved = ({element}) => {
             <button className='font-semibold bg-yellow-500 mt-2 text-sm w-full py-1 text-white'>Shop Now</button>
           </div>
         </div>
+    </Link>
+    
   )
 }
 

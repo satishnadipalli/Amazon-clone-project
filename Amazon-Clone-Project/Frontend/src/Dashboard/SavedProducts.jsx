@@ -18,8 +18,7 @@ const SavedProducts = ({id}) => {
             if(response.ok){
               const {SavedProducts} = await response.json();
               setSavedProduct(SavedProducts);
-              console.log("hello");
-              console.log(SavedProducts)
+
             }
           }
       
@@ -29,7 +28,7 @@ const SavedProducts = ({id}) => {
 
   return (
 
-      <div className='w-full p-8'>
+      <div className='w-full p-8 mt-7'>
         <h1 className='text-lg w-full font-semibold text-gray-700 '>Your Items</h1>
        
         <span className='text-sm text-orange-600 font-semibold pb-9'>Save For Later Items</span>

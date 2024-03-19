@@ -3,7 +3,7 @@ const { AddressSchema } = require("./AddressSchema");
 const {UserAddress} = require('./AddressSchema');
 const {CartSchema} = require("./CartService/CartSchema/CartSchema");
 const {SaveLaterSchema} = require("./SavedLater/SaveLaterSchema/SaveLaterSchema");
-
+const {ORDERSSCHEMA} = require("./UserOrders/OrdersSchema/OrdersSchema");
 const UsersSchema = mongoose.Schema({
     lastname : {
         type: String,
@@ -42,6 +42,11 @@ const UsersSchema = mongoose.Schema({
     },
     saveLater : {
         type : [SaveLaterSchema],
+        default:[],
+        required:false
+    },
+    orders : {
+        type:[ORDERSSCHEMA],
         default:[],
         required:false
     }

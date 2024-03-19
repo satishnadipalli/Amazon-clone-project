@@ -9,6 +9,7 @@ const FilteringRoutes = require("./ProductsFiteringRoutes/ProductsFilteringRoute
 const SavedRouter = require("./SavedLater/SaveLaterRoutes/cartRoutes");
 const AddProductRouter = require("./AddingProducts/AddingProductRoutes/AddingProductsRoutes");
 const bodyParser = require("body-parser");
+const OrdersRouter = require("./UserOrders/OrdersRoutes/OrdersRoutes");
 
 
 const app = express();
@@ -24,35 +25,24 @@ app.use(CartRouter);
 app.use(FilteringRoutes);
 app.use(AddProductRouter);
 app.use(SavedRouter);
+app.use(OrdersRouter);
 
 
-app.use(express.static(path.join(__dirname, "../Frontend")));
+app.use(express.static(path.join(__dirname, "../Frontend/disk")));
 
 app.get("/h", (req, res) => {
   res.send("hello");
 });
 
-const start = async (req, res) => {
+const PORT = process.env.PORT || 3000; // Use environment port or default to 3000
+
+const start = async () => {
   try {
     await CONNECT_DB();
-    app.listen(3000, () => {
-      console.log("The server is listening on the port 3000");
+    app.listen(PORT, () => {
+      console.log(`Server is listening on port ${PORT}`);
     });
   } catch (error) {
-    console.log(error);
+    console.error("Error starting server:", error);
   }
 };
-
-start();
-
-
-// const express = require("express");
-// const app = express()
-
-// app.get("/",(req,res)=>{
-//     res.send("hello world")
-// })
-
-// app.listen(3000,()=>{
-//     console.log("the server is started")
-// })

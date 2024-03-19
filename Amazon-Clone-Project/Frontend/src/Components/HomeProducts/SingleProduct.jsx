@@ -5,7 +5,7 @@ import { fetchData } from '../../DataFectch';
 import { numbering } from './Functions';
 
 const SingleProduct = ({ element }) => {
-  console.log(element);
+
 
   return (
     <Link to={`/ontwoproduct/${element.productId}`}>

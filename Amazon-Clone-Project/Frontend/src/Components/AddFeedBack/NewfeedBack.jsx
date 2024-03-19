@@ -15,7 +15,7 @@ const NewfeedBack = ({setIsOpen,productId}) => {
     const [rateValue, setrateValue] = useState(null); 
     console.log(rateValue)
     function handleModel(){
-        setIsOpen(false);
+      setIsOpen(false);
     }
 
     const [feedData,setFeedData] = useState(
@@ -51,7 +51,8 @@ const NewfeedBack = ({setIsOpen,productId}) => {
         });
         if(response.ok){
           console.log("Your response successfully added");
-        }
+          handleModel();
+        } 
       } catch (error) {
         
       }

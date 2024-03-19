@@ -6,6 +6,10 @@ const SaveLaterSchema = new Schema({
         type: String,
         required: [true, "Please provide the title of the product"]
     },
+    productId:{
+        type: String,
+        required:[true,"please provide the productId"]
+    },
     image:[ {
         type: String,
         required: [true, "Please provide the image link of the product"]

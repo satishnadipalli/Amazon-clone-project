@@ -11,8 +11,8 @@ import Profile from './addnewProduct/Profile';
 import Users from './Users.jsx/Users';
 import Orders from './Orders/Orders';
 import AllProductsAdminDetails from './AllProductAdminDetails/AllProductsAdminDetails';
-const Dashboard = () => {
-    const [component,setComponent] = useState('profile');
+const Dashboard = ({setComponent,component}) => {
+
     const dispatch = useDispatch();
     const {loginDetails,userLocation} = useSelector(state=>state.cart)
     const [tab,setTab] = useState('saved')
@@ -44,6 +44,10 @@ const Dashboard = () => {
     function logoutUser(){
         setisOpen(true);
     }
+
+    function handleSwithAccount(){
+        window.location = '/Auth'
+    }
   return (
     <div className='w-full relative flex relative overflow-hidden pb-24 '>
         
@@ -59,39 +63,7 @@ const Dashboard = () => {
                 <span>Users</span>
                 </div>
             }
-
-            <div onClick={()=>setComponent("orders")}  className='flex gap-4 hover:bg-gray-200 py-2 px-3 hover:rounded-lg hover:scale-105'>
-                <OrderIcon/>
-                <span>Orders</span>
-            </div>
-
-            <div onClick={()=>setComponent("savedproducts")}  className='flex gap-4 hover:bg-gray-200 py-2 px-3 hover:rounded-lg hover:scale-105'>
-                <Saved/>
-                <span>Saved Products</span>
-            </div>
             
-            <div onClick={()=>setComponent("productsbuyed")}  className='flex gap-4 hover:bg-gray-200 py-2 px-3 hover:rounded-lg hover:scale-105'>
-                <Buyed/>
-                <span>Products Buyed</span>
-            </div>
-
-            <div onClick={()=>setComponent("orders")}  className='flex gap-4 hover:bg-gray-200 py-2 px-3 hover:rounded-lg hover:scale-105'>
-                <DashboardIcon/>
-                <span>Dashboard</span>
-            </div>
-            <div onClick={()=>setComponent("profile")}  className='flex gap-4 items-center hover:bg-gray-200 py-2 px-3 hover:rounded-lg hover:scale-105'>
-                <img src={"http://localhost:3000/uploads/"+loginDetails?.profilePhoto} alt="" className='w-8 h-8 rounded-full' />
-                <span>Profile</span>
-            </div>
-            <div onClick={()=>setComponent("orders")}  className='flex gap-4 hover:bg-gray-200 py-2 px-3 hover:rounded-lg hover:scale-105'>
-                <SwitchAccount/>
-                <span>Switch Account</span>
-            </div>
-            <div onClick={logoutUser}  className='flex gap-4 hover:bg-gray-200 py-2 px-3 hover:rounded-lg hover:scale-105'>
-                <LogoutIcon/>
-                <span>Logout</span>
-            </div>
-
             {
                 loginDetails?.isAdmin &&
                     <div onClick={()=>setComponent("products")}  className='flex gap-4 hover:bg-gray-200 py-2 px-3 hover:rounded-lg hover:scale-105'>
@@ -99,12 +71,40 @@ const Dashboard = () => {
                         <span>Products</span>
                     </div>
             }
+            <div onClick={()=>setComponent("orders")}  className='flex gap-4 hover:bg-gray-200 py-2 px-3 hover:rounded-lg hover:scale-105'>
+                <OrderIcon/>
+                <span>Orders</span>
+            </div>
 
-            
+            <div onClick={()=>setComponent("profile")}  className='flex gap-4 items-center hover:bg-gray-200 py-2 px-3 hover:rounded-lg hover:scale-105'>
+                <img src={"http://localhost:3000/uploads/"+loginDetails?.profilePhoto} alt="" className='w-8 h-8 rounded-full' />
+                <span>Profile</span>
+            </div>
+            <div onClick={()=>setComponent("savedproducts")}  className='flex gap-4 hover:bg-gray-200 py-2 px-3 hover:rounded-lg hover:scale-105'>
+                <Saved/>
+                <span>Saved Products</span>
+            </div>
+            <div onClick={logoutUser}  className='flex gap-4 hover:bg-gray-200 py-2 px-3 hover:rounded-lg hover:scale-105'>
+                <LogoutIcon/>
+                <span>Logout</span>
+            </div>
+
+            <div onClick={()=>setComponent("productsbuyed")}  className='flex gap-4 hover:bg-gray-200 py-2 px-3 hover:rounded-lg hover:scale-105'>
+                <Buyed/>
+                <span>Products Buyed</span>
+            </div>
+            <div onClick={()=>setComponent("orders")}  className='flex gap-4 hover:bg-gray-200 py-2 px-3 hover:rounded-lg hover:scale-105'>
+                <DashboardIcon/>
+                <span>Dashboard</span>
+            </div>
+            <div onClick={handleSwithAccount}  className='flex gap-4 hover:bg-gray-200 py-2 px-3 hover:rounded-lg hover:scale-105'>
+                <SwitchAccount/>
+                <span>Switch Account</span>
+            </div>
 
         </div>
         {
-            component == 'profile' && <Profile handleProfile={handleProfile} handleTab={handleTab} logouts={logouts} tab={tab}/> ||  component == 'users' && <Users/> || component=='orders' && <Orders/> || component == 'products' && <AllProductsAdminDetails/> || component==='savedproducts' && <SavedProducts/> || component ==="productsbuyed" && <BuyedProducts/>                                                                    
+            component == 'profile' && <Profile handleProfile={handleProfile} handleTab={handleTab} logouts={logouts} tab={tab}/> ||  component == 'users' && <Users/> || component=='orders' && <Orders setComponent={setComponent}/> || component == 'products' && <AllProductsAdminDetails/> || component==='savedproducts' && <SavedProducts/> || component ==="productsbuyed" && <BuyedProducts/>                                                                    
         }
         {
             open && <div 

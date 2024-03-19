@@ -2,7 +2,6 @@ import React, { useEffect, useMemo, useState } from 'react'
 import { useSelector } from 'react-redux';
 import SingleCart from '../singleCart';
 import { useDispatch } from 'react-redux';
-
 import CartModel from './CartModel';
 import { openModal } from '../ModelSlice';
 import { GoToShop, Right } from '../../HeroIcons';
@@ -55,12 +54,10 @@ const Cart = () => {
   function handlePreceedToBuy(){
     if(!loginDetails){
       navigate('/Auth'); 
-    }else if(loginDetails && userLocation?.length<=0){
-      console.log(userLocation);
-
+    }else if(loginDetails && userLocation?.length<=0 ){
       navigate('/location');
     }else{
-      console.log("we are succeded")
+      navigate('/shipping');
     }
   }
 
@@ -70,7 +67,7 @@ const Cart = () => {
 
   return (
     <>
-    <div className= {cartProducts.length<=3 ? 'flex gap-5 bg-back w-full gre p-8 relative h-screen' :'flex gap-5 bg-back w-full gre p-8 relative' }>
+    <div className= {cartProducts.length<=3 ? 'flex gap-5 bg-back w-full gre p-8 relative h-screen mt-10' :' mt-10 flex gap-5 bg-back w-full gre p-8 relative' }>
     { isOpen && cartProducts.length>0 && <CartModel/> }
       <div className="w-4/5 cart-products-container  bg-white">
         <span className='pl-5 pt-5 text-xl block'>Shopping Cart</span>

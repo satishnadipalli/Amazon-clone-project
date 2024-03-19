@@ -2,6 +2,83 @@ require("express-async-errors");
 const jwt = require("jsonwebtoken");
 const UserDB = require("./UserSchema");
 const UserAddress = require('./AddressSchema');
+const nodemailer = require("nodemailer");
+
+const transporter = nodemailer.createTransport({
+    service:"gmail",
+    auth:{
+        user:"satishnadipalli1@gmail.com",
+        pass:"rjwv dotz kchr vyrn"
+    }
+})
+
+
+const sendWelcomeEmail = (email) =>{
+    const mailOptions = {
+        from:"satishnadipalli1@gmail.com",
+        to:email,
+        subject:"Welcome email form KRI-SA SITES",
+        html: `
+            <html>
+            <head>
+                <style>
+                    body {
+                        font-family: Arial, sans-serif;
+                        background-color: #f4f4f4;
+                        padding: 20px;
+                    }
+                    .container {
+                        max-width: 600px;
+                        margin: 0 auto;
+                        background-color: #fff;
+                        padding: 20px;
+                        border-radius: 10px;
+                        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+                    }
+                    h1 {
+                        color: #333;
+                    }
+                    p {
+                        color: #666;
+                        margin-bottom: 20px;
+                    }
+                    .logo {
+                        text-align: center;
+                        margin-bottom: 20px;
+                    }
+                    img {
+                        max-width: 100%;
+                    }
+                </style>
+            </head>
+            <body>
+                <div class="container">
+                    <div class="logo">
+                        <img src="https://ativancouver.ca/wp-content/uploads/jet-engine-forms/12/2023/01/lord-krishna-arjuna-logo-small-sig-1536x1536.png" alt="KRI-SA SITES Logo">
+                    </div>
+                    <h1>Welcome to KRI-SA SITES!</h1>
+                    <p>Thank you for signing up with us. We're thrilled to have you on board!</p>
+                    <p>Here are some key features of our e-commerce site:</p>
+                    <ul>
+                        <li>Wide range of products to choose from</li>
+                        <li>Secure payment options</li>
+                        <li>Fast and reliable shipping</li>
+                    </ul>
+                    <p>Start exploring our site now and enjoy a seamless shopping experience!</p>
+                </div>
+            </body>
+            </html>
+        `,
+    }
+
+    transporter.sendMail(mailOptions, function(error, info){
+        if (error) {
+            console.log(error);
+        } else {
+            console.log('Email sent: ' + info.response);
+        }
+    });
+}
 
 const postData = async(req,res) =>{
 
@@ -25,7 +102,7 @@ const postData = async(req,res) =>{
 
     const CreatedUser =await UserDB.create({lastname,email,password,profilePhoto,createdDate});
     const token = jwt.sign({lastname,email},process.env.JWT_SECRET,{expiresIn:"30d"});
-    
+    sendWelcomeEmail(email);
     res.status(200).json({lastname,email,profilePhoto,token,isAdmin:false});
 }
 
@@ -39,7 +116,6 @@ const login = async(req,res) =>{
 
     const UserInDB = await UserDB.findOne({email});
 
-    //checking the mathcing password
 
     if(password !== UserInDB.password){
         return res.status(401).json({msg:"password missmatched"});
@@ -76,6 +152,7 @@ const getAlladdress = async(req,res)=>{
 const deleteAddresds = async (req, res) => {
     const { productId } = req.params;  
     const { _id } = req.user;
+    
     const userWithEmail = await UserDB.findOne({ _id });
 
     
