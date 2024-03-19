@@ -34,27 +34,20 @@ app.get("/h", (req, res) => {
   res.send("hello");
 });
 
-const start = async (req, res) => {
+
+const start = async () => {
   try {
     await CONNECT_DB();
-    app.listen(3000, () => {
-      console.log("The server is listening on the port 3000");
+    const PORT = process.env.PORT || 3000; 
+    app.listen(PORT, () => {
+      console.log(`The server is listening on port ${PORT}`);
     });
   } catch (error) {
-    console.log(error);
+    console.error("An error occurred while starting the server:", error);
+    process.exit(1); 
   }
 };
 
+
 start();
 
-
-// const express = require("express");
-// const app = express()
-
-// app.get("/",(req,res)=>{
-//     res.send("hello world")
-// })
-
-// app.listen(3000,()=>{
-//     console.log("the server is started")
-// })
