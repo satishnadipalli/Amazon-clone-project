@@ -74,7 +74,7 @@ const UpdateAdminModel = ({ clickedUser, handleSubmit, setClickedUser, setIsOpen
 
         <div className='w-full flex m-auto mt-8 rounded-xl'>
           <button className="relative inline-flex h-10 items-center justify-center p-0.5 mb-2 me-2 ...">
-            <span className="relative px-5 py-2.5 transition-all ease-in duration-75 ...">
+            <span onClick={()=>setIsOpen(false)} className="relative px-5 py-2.5 transition-all ease-in duration-75 ...">
               Cancel
             </span>
           </button>

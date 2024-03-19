@@ -28,21 +28,33 @@ app.use(SavedRouter);
 app.use(OrdersRouter);
 
 
-app.use(express.static(path.join(__dirname, "../Frontend/disk")));
+app.use(express.static(path.join(__dirname, "../Frontend")));
 
 app.get("/h", (req, res) => {
   res.send("hello");
 });
 
-const PORT = process.env.PORT || 3000; // Use environment port or default to 3000
-
-const start = async () => {
+const start = async (req, res) => {
   try {
     await CONNECT_DB();
-    app.listen(PORT, () => {
-      console.log(`Server is listening on port ${PORT}`);
+    app.listen(3000, () => {
+      console.log("The server is listening on the port 3000");
     });
   } catch (error) {
-    console.error("Error starting server:", error);
+    console.log(error);
   }
 };
+
+start();
+
+
+// const express = require("express");
+// const app = express()
+
+// app.get("/",(req,res)=>{
+//     res.send("hello world")
+// })
+
+// app.listen(3000,()=>{
+//     console.log("the server is started")
+// })
